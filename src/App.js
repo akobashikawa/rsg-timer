@@ -31,34 +31,7 @@ class App extends Component {
         <Navbar title="Timer" />
       
         <div className="main">
-          <div className="Timer">
-            <div className="container">
-              <div className="row">
-                <div className="col-xs-6 col-xs-offset-3">
-                  <div className="input-group">
-                    <div className="input-group-btn">
-                      <button className="btn btn-danger">Reset</button>
-                    </div>
-                    <input type="number" className="minutes form-control text-center" placeholder="00"/>
-                    <div className="input-group-addon">:</div>
-                    <input type="number" className="seconds form-control text-center" placeholder="00"/>
-                    <div className="input-group-btn">
-                      <button className="btn btn-primary">Start</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-xs-6 col-xs-offset-3">
-                  <div className="display jumbotron">
-                    <span className="number mm">00</span>
-                    :
-                    <span className="number ss">00</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Timer />
         </div>
 
       </div>
@@ -67,3 +40,57 @@ class App extends Component {
 }
 
 export default App;
+
+class Timer extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      minutes: 0,
+      seconds: 0
+    };
+  }
+
+  leadingZero(n) {
+    return n < 10 ? '0' + n : n;
+  }
+
+  render() {
+    return (
+      <div className="Timer">
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-6 col-xs-offset-3">
+              <div className="input-group">
+                <div className="input-group-btn">
+                  <button className="btn btn-danger">Reset</button>
+                </div>
+                <input type="number" className="minutes form-control text-center"
+                  value={this.leadingZero(this.state.minutes)}
+                />
+                <div className="input-group-addon">:</div>
+                <input type="number" className="seconds form-control text-center"
+                  value={this.leadingZero(this.state.seconds)}
+                />
+                <div className="input-group-btn">
+                  <button className="btn btn-primary">Start</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-6 col-xs-offset-3">
+              <div className="display jumbotron">
+                <span className="number mm">{this.leadingZero(this.state.minutes)}</span>
+                :
+                <span className="number ss">{this.leadingZero(this.state.seconds)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+}
