@@ -27,12 +27,40 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Navbar title="Welcome to React" />
+
+        <Navbar title="Timer" />
+      
         <div className="main">
-          <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload.
-          </p>
+          <div className="Timer">
+            <div className="container">
+              <div className="row">
+                <div className="col-xs-6 col-xs-offset-3">
+                  <div className="input-group">
+                    <div className="input-group-btn">
+                      <button className="btn btn-danger">Reset</button>
+                    </div>
+                    <input type="number" className="minutes form-control text-center" placeholder="00"/>
+                    <div className="input-group-addon">:</div>
+                    <input type="number" className="seconds form-control text-center" placeholder="00"/>
+                    <div className="input-group-btn">
+                      <button className="btn btn-primary">Start</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-xs-6 col-xs-offset-3">
+                  <div className="display jumbotron">
+                    <span className="number mm">00</span>
+                    :
+                    <span className="number ss">00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
       </div>
     );
   }
