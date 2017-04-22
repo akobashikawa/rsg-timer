@@ -36,7 +36,3 @@ html, body, #root, .App, .main {
   align-items: center;
   justify-content: center;
 }
-
-.display {
-  font-size: 10em;
-}
