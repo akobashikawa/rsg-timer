@@ -48,23 +48,33 @@ class Timer extends Component {
 
     this.state = {
       minutes: 0,
-      seconds: 0
+      seconds: 0,
+      started: false
     };
   }
 
-  leadingZero(n) {
-    console.log('leadingZero', n);
-    return n < 10 ? '0' + n : n;
+  resetHandler() {
+    this.minutesInput.value = '';
+    this.secondsInput.value = '';
+    this.setState({minutes: 0, seconds: 0});
   }
 
   startHandler() {
-    let seconds = this.secondsInput.value || 0;
-    let minutes = this.minutesInput.value || 0;
+    let seconds = 1 * this.secondsInput.value || 0;
+    let minutes = 1 * this.minutesInput.value || 0;
     if (seconds >= 60) {
       minutes += Math.floor(seconds / 60);
       seconds %= 60;
     }
-    this.setState({minutes, seconds});
+    this.setState({minutes, seconds, started: true});
+  }
+
+  stopHandler() {
+    this.setState({started: false});
+  }
+
+  leadingZero(n) {
+    return n < 10 ? '0' + n : n;
   }
 
   render() {
@@ -76,7 +86,9 @@ class Timer extends Component {
               <div className="input-group">
 
                 <div className="input-group-btn">
-                  <button className="btn btn-danger">Reset</button>
+                  <button className="btn btn-danger"
+                    onClick={() => this.resetHandler()}
+                  >Reset</button>
                 </div>
 
                 <input type="number" className="minutes form-control text-center"
@@ -92,9 +104,16 @@ class Timer extends Component {
                 />
 
                 <div className="input-group-btn">
-                  <button className="btn btn-primary"
-                    onClick={() => this.startHandler()}
-                  >Start</button>
+                  {!this.state.started && (
+                    <button className="btn btn-primary"
+                      onClick={() => this.startHandler()}
+                    >Start</button>
+                  )}
+                  {this.state.started && (
+                    <button className="btn btn-warning"
+                      onClick={() => this.stopHandler()}
+                    >Stop</button>
+                  )}
                 </div>
 
               </div>
