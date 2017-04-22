@@ -46,31 +46,61 @@ class Timer extends Component {
   constructor(props) {
     super(props);
 
+    this.interval = null;
+
     this.state = {
       minutes: 0,
       seconds: 0,
-      started: false
+      start: false,
+      finish: false
     };
+
+    this.updateTime = this.updateTime.bind(this);
+    this.endTime = this.endTime.bind(this);
+  }
+
+  updateTime() {
+    let minutes = this.state.minutes;
+    let seconds = this.state.seconds;
+    if (seconds > 0) {
+      seconds -= 1;
+      if (seconds === 0 && minutes === 0) {
+        this.endTime();
+      }
+    } else {
+      if (minutes > 0) {
+        minutes -= 1;
+        seconds = 59;
+      }      
+    }
+    this.setState({minutes, seconds});
+  }
+
+  endTime() {
+    this.stopHandler();
+    this.setState({finish: true});
   }
 
   resetHandler() {
     this.minutesInput.value = '';
     this.secondsInput.value = '';
-    this.setState({minutes: 0, seconds: 0});
+    this.setState({minutes: 0, seconds: 0, start: false, finish: false});
   }
 
   startHandler() {
-    let seconds = 1 * this.secondsInput.value || 0;
     let minutes = 1 * this.minutesInput.value || 0;
+    let seconds = 1 * this.secondsInput.value || 0;
     if (seconds >= 60) {
       minutes += Math.floor(seconds / 60);
       seconds %= 60;
     }
-    this.setState({minutes, seconds, started: true});
+    this.interval = setInterval(this.updateTime, 1000);
+    this.setState({minutes, seconds, start: true});
   }
 
   stopHandler() {
-    this.setState({started: false});
+    clearInterval(this.interval);
+    this.setState({start: false});
   }
 
   leadingZero(n) {
@@ -104,12 +134,12 @@ class Timer extends Component {
                 />
 
                 <div className="input-group-btn">
-                  {!this.state.started && (
+                  {!this.state.start && (
                     <button className="btn btn-primary"
                       onClick={() => this.startHandler()}
                     >Start</button>
                   )}
-                  {this.state.started && (
+                  {this.state.start && (
                     <button className="btn btn-warning"
                       onClick={() => this.stopHandler()}
                     >Stop</button>
@@ -121,7 +151,7 @@ class Timer extends Component {
           </div>
           <div className="row">
             <div className="col-xs-6 col-xs-offset-3">
-              <div className="display jumbotron">
+              <div className="display" style={this.state.finish ? {color: 'lime'} : {}}>
                 <span className="number mm">{this.leadingZero(this.state.minutes)}</span>
                 :
                 <span className="number ss">{this.leadingZero(this.state.seconds)}</span>
