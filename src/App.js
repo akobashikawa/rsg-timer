@@ -53,7 +53,18 @@ class Timer extends Component {
   }
 
   leadingZero(n) {
+    console.log('leadingZero', n);
     return n < 10 ? '0' + n : n;
+  }
+
+  startHandler() {
+    let seconds = this.secondsInput.value || 0;
+    let minutes = this.minutesInput.value || 0;
+    if (seconds >= 60) {
+      minutes += Math.floor(seconds / 60);
+      seconds %= 60;
+    }
+    this.setState({minutes, seconds});
   }
 
   render() {
@@ -63,19 +74,29 @@ class Timer extends Component {
           <div className="row">
             <div className="col-xs-6 col-xs-offset-3">
               <div className="input-group">
+
                 <div className="input-group-btn">
                   <button className="btn btn-danger">Reset</button>
                 </div>
+
                 <input type="number" className="minutes form-control text-center"
-                  value={this.leadingZero(this.state.minutes)}
+                  placeholder="00"
+                  ref={input => this.minutesInput = input}
                 />
+
                 <div className="input-group-addon">:</div>
+
                 <input type="number" className="seconds form-control text-center"
-                  value={this.leadingZero(this.state.seconds)}
+                  placeholder="00"
+                  ref={input => this.secondsInput = input}
                 />
+
                 <div className="input-group-btn">
-                  <button className="btn btn-primary">Start</button>
+                  <button className="btn btn-primary"
+                    onClick={() => this.startHandler()}
+                  >Start</button>
                 </div>
+
               </div>
             </div>
           </div>
