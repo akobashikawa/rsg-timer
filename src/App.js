@@ -7,7 +7,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 window.jQuery = $;
 require('bootstrap');
 
-import Timer from './Timer';
+// import Timer from './Timer';
+import Timer2 from './Timer2';
 import logo from './logo.svg';
 import './App.css';
 
@@ -32,9 +33,9 @@ class App extends Component {
         <Navbar title="Timer" />
       
         <div className="main">
-          <Timer />
+          <Timer2 />
         </div>
-
+        
       </div>
     );
   }
